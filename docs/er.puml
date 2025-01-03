@@ -1,0 +1,49 @@
+@startuml
+' Define entities and relationships for the ER Diagram
+
+entity "Student" as student {
+    * id : BIG SERIAL [PK]
+    --
+    first_name : TEXT [NOT NULL]
+    last_name : TEXT [NOT NULL]
+    email : TEXT [UNIQUE, NOT NULL]
+    age : INT [NOT NULL]
+    created_at : TIMESTAMP WITHOUT TIMEZONE [NOT NULL]
+}
+
+entity "StudentIdCard" as student_id_card {
+    * id : BIG SERIAL [PK]
+    --
+    student_id : BIG INT [FK]
+    card_number : TEXT [UNIQUE, NOT NULL]
+}
+
+entity "Book" as book {
+    * id : BIG SERIAL [PK]
+    --
+    student_id : BIG INT [FK]
+    book_name : TEXT [NOT NULL]
+    created_at : TIMESTAMP WITHOUT TIMEZONE [NOT NULL]
+}
+
+entity "Course" as course {
+    * id : BIG SERIAL [PK]
+    --
+    name : TEXT [NOT NULL]
+    department : TEXT [NOT NULL]
+    created_at : TIMESTAMP WITHOUT TIMEZONE [NOT NULL]
+}
+
+entity "Enrollment" as enrolment {
+    * id : BIG SERIAL [PK]
+    --
+    student_id : BIG INT [PK, FK]
+    course_id : BIG INT [PK, FK]
+}
+
+' Relationships
+student ||--o{ student_id_card : "1 to 1"
+student ||--o{ book : "1 to many"
+student ||--o{ enrolment : "1 to many"
+course ||--o{ enrolment : "1 to many"
+@enduml
